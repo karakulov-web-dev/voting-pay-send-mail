@@ -1,7 +1,7 @@
 /**
  * @author karakulov.web.dev@gmail.com
  */
-const nodemailer = require("nodemailer");
+import nodemailer from "nodemailer";
 
 class App {
   constructor() {
