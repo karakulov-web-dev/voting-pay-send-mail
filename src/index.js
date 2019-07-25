@@ -1,4 +1,17 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -34,11 +47,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 exports.__esModule = true;
 /**
  * @author karakulov.web.dev@gmail.com
  */
-var nodemailer = require("nodemailer");
+var nodemailer_1 = __importDefault(require("nodemailer"));
+var index_1 = __importDefault(require("../../fast-express/src/index"));
+var MailApi = /** @class */ (function (_super) {
+    __extends(MailApi, _super);
+    function MailApi() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    MailApi.prototype.hello = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, "hello world!"];
+            });
+        });
+    };
+    return MailApi;
+}(index_1["default"]));
+new MailApi(8082);
 var App = /** @class */ (function () {
     function App() {
         function main() {
@@ -47,7 +79,7 @@ var App = /** @class */ (function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            transporter = nodemailer.createTransport({
+                            transporter = nodemailer_1["default"].createTransport({
                                 service: "Yandex",
                                 auth: {
                                     user: "admin@votingpay.com",
@@ -73,4 +105,3 @@ var App = /** @class */ (function () {
     return App;
 }());
 exports["default"] = App;
-new App();

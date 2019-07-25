@@ -2,6 +2,14 @@
  * @author karakulov.web.dev@gmail.com
  */
 import nodemailer from "nodemailer";
+import FastExpress from "../../fast-express/src/index";
+
+class MailApi extends FastExpress {
+  async hello() {
+    return "hello world!";
+  }
+}
+new MailApi(8082);
 
 class App {
   constructor() {
@@ -33,5 +41,3 @@ class App {
 }
 
 export default App;
-
-new App();
