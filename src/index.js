@@ -12,6 +12,17 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -55,53 +66,40 @@ exports.__esModule = true;
  * @author karakulov.web.dev@gmail.com
  */
 var nodemailer_1 = __importDefault(require("nodemailer"));
-var index_1 = __importDefault(require("../../fast-express/src/index"));
+var fast_express_1 = require("@karakulov-web-dev/fast-express");
 var MailApi = /** @class */ (function (_super) {
     __extends(MailApi, _super);
     function MailApi() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
-    MailApi.prototype.hello = function () {
+    MailApi.prototype.send = function (_a) {
+        var body = _a.body;
         return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                return [2 /*return*/, "hello world!"];
+            var transporter, info;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        transporter = nodemailer_1["default"].createTransport({
+                            service: "Yandex",
+                            auth: {
+                                user: "admin@votingpay.com",
+                                pass: "adminpass111"
+                            }
+                        });
+                        if (!body) {
+                            return [2 /*return*/, {
+                                    error: true,
+                                    errorText: "Данные для отправки не предоставленны!"
+                                }];
+                        }
+                        return [4 /*yield*/, transporter.sendMail(__assign({}, body))];
+                    case 1:
+                        info = _b.sent();
+                        return [2 /*return*/, info];
+                }
             });
         });
     };
     return MailApi;
-}(index_1["default"]));
-new MailApi(8082);
-var App = /** @class */ (function () {
-    function App() {
-        function main() {
-            return __awaiter(this, void 0, void 0, function () {
-                var transporter, info;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0:
-                            transporter = nodemailer_1["default"].createTransport({
-                                service: "Yandex",
-                                auth: {
-                                    user: "admin@votingpay.com",
-                                    pass: "adminpass111"
-                                }
-                            });
-                            return [4 /*yield*/, transporter.sendMail({
-                                    from: '"Fred Foo 👻" <admin@votingpay.com>',
-                                    to: "karakulov.web.dev@gmail.com",
-                                    subject: "Hello ✔",
-                                    text: "Hello world?",
-                                    html: "<b>Hello world?</b>" // html body
-                                })];
-                        case 1:
-                            info = _a.sent();
-                            return [2 /*return*/];
-                    }
-                });
-            });
-        }
-        main()["catch"](console.error);
-    }
-    return App;
-}());
-exports["default"] = App;
+}(fast_express_1.FastExpress));
+new MailApi(8002);

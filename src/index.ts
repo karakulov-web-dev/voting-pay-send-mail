@@ -2,42 +2,27 @@
  * @author karakulov.web.dev@gmail.com
  */
 import nodemailer from "nodemailer";
-import FastExpress from "../../fast-express/src/index";
+import { FastExpress, express } from "@karakulov-web-dev/fast-express";
 
 class MailApi extends FastExpress {
-  async hello() {
-    return "hello world!";
-  }
-}
-new MailApi(8082);
-
-class App {
-  constructor() {
-    async function main() {
-      // Generate test SMTP service account from ethereal.email
-      // Only needed if you don't have a real mail account for testing
-
-      // create reusable transporter object using the default SMTP transport
-      const transporter = nodemailer.createTransport({
-        service: "Yandex",
-        auth: {
-          user: "admin@votingpay.com",
-          pass: "adminpass111"
-        }
-      });
-
-      // send mail with defined transport object
-      let info = await transporter.sendMail({
-        from: '"Fred Foo 👻" <admin@votingpay.com>', // sender address
-        to: "karakulov.web.dev@gmail.com", // list of receivers
-        subject: "Hello ✔", // Subject line
-        text: "Hello world?", // plain text body
-        html: "<b>Hello world?</b>" // html body
-      });
+  async send({ body }: express.Request) {
+    const transporter = nodemailer.createTransport({
+      service: "Yandex",
+      auth: {
+        user: "admin@votingpay.com",
+        pass: "adminpass111"
+      }
+    });
+    if (!body) {
+      return {
+        error: true,
+        errorText: "Данные для отправки не предоставленны!"
+      };
     }
-
-    main().catch(console.error);
+    let info = await transporter.sendMail({
+      ...body
+    });
+    return info;
   }
 }
-
-export default App;
+new MailApi(8002);
